@@ -26,8 +26,15 @@ To start the **rfw** server, run the following command:
 rfw-cli dev
 ```
 
-To set a custom port and expose to the network, use the following flags:
+### Flags
+
+Two flags are available for the `dev` command:
+
+- `--port XXXX`: specify the port number for the server (default is 8080, replace `XXXX` with the desired port number)
+- `--host`: to expose the server to the network
+
+For example
 
 ```bash
-rfw-cli dev --port 8080 --host
+rfw-cli dev --port 3000 --host
 ```
