@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/rfwlab/rfw-cli/internal/build"
 	"github.com/rfwlab/rfw-cli/internal/initproj"
 	"github.com/rfwlab/rfw-cli/internal/server"
 	"github.com/rfwlab/rfw-cli/internal/utils"
@@ -21,6 +22,8 @@ func Execute() {
 		initProject(os.Args[2:])
 	case "dev":
 		startServer(os.Args[2:])
+	case "build":
+		buildProject(os.Args[2:])
 	case "-h", "--help":
 		showHelp()
 	default:
@@ -45,6 +48,20 @@ func startServer(args []string) {
 	srv := server.NewServer(*port, *host)
 	if err := srv.Start(); err != nil {
 		utils.Fatal("Server failed to start: ", err)
+	}
+}
+
+func buildProject(args []string) {
+	buildFlags := flag.NewFlagSet("build", flag.ExitOnError)
+
+	err := buildFlags.Parse(args)
+	if err != nil {
+		fmt.Println("Error parsing flags:", err)
+		os.Exit(1)
+	}
+
+	if err := build.Build(); err != nil {
+		utils.Fatal("Failed to build project: ", err)
 	}
 }
 
